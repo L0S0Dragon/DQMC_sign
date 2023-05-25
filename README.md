@@ -2,7 +2,7 @@
 
 ## Algorithm
 
-1. Initialize H-S field for all space-time point by choosing randomly from $[1,1]$.
+1. Initialize H-S field for all space-time point by choosing randomly from $[-1,1]$.
 2. Calculate propagators $B_{\phi}(\tau,0)$ for all time slice between $[\beta, 0]$, use UDV stablization technique and store all U,D,V matrices.
 3. Sweep backward then forward
 4. Perform measurements after each sweep
@@ -27,7 +27,7 @@ $U = [U_0,U_1,...,U_{N_\tau}] $, $D = [D_0, D_1,..., D_{N_\tau}] $, $V = [V_0, V
 $$
 G(\tau_2,\tau_2) = B(\tau_2,\tau_1) G(\tau_1,\tau_1) B(\tau_2,\tau_1)^{-1}.
 $$
-PS. propagator 
+PS. propagator of $B(\tau_2,\tau_1)$ is calculated using the new configuration of H-S field.
 
 3. Every $N_{stable}$ time slice, recompute equal time Green function from propagator using SVD decomposition
 
@@ -45,14 +45,14 @@ For both backward sweep and forward sweep, we just need to do the replacement al
 ## Measurement
 Total number of electrons to determine the doping of electron.
 $$
-\hat{N} = \sum_i c_i^\dagger c_i. 
+\hat{N} = \sum_i c_i^\dagger c_i.
 $$
 
 It is equal to $\text{Tr}(G(\tau,\tau))$
 
 Sign of Monte Carlo weight 
 $$
-sign[\det[I-B(\beta,0)]] 
+sign[\det[I-B(\beta,0)]]
 $$
 
 In pratical, we collect quantity
@@ -68,25 +68,24 @@ $$
 
 ### Deviation of $\exp(-V(\phi))$, $\Delta$
 Only flip one site each time
-$$
-\Delta(\tau)_{ij} = \delta_{i,n}\delta_{j,n} \Delta(\tau)_{nn}
-$$
+
+$$\Delta(\tau)_{ij} = \delta_{i,n}\delta_{j,n} \Delta(\tau)_{nn}$$
+
 Furthermore, we have
+
 $$
 \Delta(\tau)_{ii} = e^{-\alpha\sigma (\phi(i)' - \phi(i)) } - 1  \\
-=  e^{2\alpha\sigma \phi(i) } - 1 
+=  e^{2\alpha\sigma \phi(i) } - 1
 $$
+
 with $\phi(i)' = -\phi(i)$
 
 ### Acceptance ratio
-$$
-R = \det[I + \Delta(i,\tau) (I - G(\tau,\tau))] \\
- = 1+ \Delta(\tau)_{ii}(1 - G(\tau,\tau)_{ii})
-$$
+$$R = \det[I + \Delta(i,\tau) (I - G(\tau,\tau))] \\
+ = 1+ \Delta(\tau)_{ii}(1 - G(\tau,\tau)_{ii})$$
+
 ### Green function update
-$$
-G_{jk} \rightarrow G_{jk} - \frac{1}{R} G_{ji} \Delta(\tau)_{ii} (I - G)_{ik}
-$$
+$$G_{jk} \rightarrow G_{jk} - \frac{1}{R} G_{ji} \Delta(\tau)_{ii} (I - G)_{ik}$$
 
 ## Reference
 
