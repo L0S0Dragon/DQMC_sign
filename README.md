@@ -89,6 +89,36 @@ $$
 G_{jk} \rightarrow G_{jk} - \frac{1}{R} G_{ji} \Delta(\tau)_{ii} (I - G)_{ik}
 $$
 
+## Compute Green function by SVD
+$$
+G(\tau,\tau) = [I-B_{\phi}(\tau,0) B_{\phi}(\beta,\tau)]^{-1}
+ = (VU_L)^{-1} D^{-1} (U_RU)^{-1}.
+$$
+
+$U$,$D$,$V$ are the decompostion of 
+$$
+(U_LU_R)^{-1} + D_RV_RV_LD_L.
+$$
+
+$$
+B_{\phi}(\tau,0) = U_R D_R V_R
+$$
+and
+
+$$
+B_{\phi}(\beta,\tau) = V_L D_L U_L
+$$
+
+
+## Spinful case 
+Parts for spin up and spin down are decoupled. $B_\phi$, $G_{\phi}$ are both direct product of spin up and spin down.
+
+The acceptance ratio should be product of contributions of spin up and spin down as 
+$$
+R = R^{\uparrow} R^{\downarrow}
+$$
+
+
 ## Reference
 
 Chapter 7 in [Quantum Monte Carlo Methods](https://doi.org/10.1017/CBO9780511902581)
