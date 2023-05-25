@@ -27,10 +27,12 @@ $U = [U_0,U_1,...,U_{N_\tau}] $, $D = [D_0, D_1,..., D_{N_\tau}] $, $V = [V_0, V
 $$
 G(\tau_2,\tau_2) = B(\tau_2,\tau_1) G(\tau_1,\tau_1) B(\tau_2,\tau_1)^{-1}.
 $$
+PS. propagator 
 
 3. Every $N_{stable}$ time slice, recompute equal time Green function from propagator using SVD decomposition
+
 $$
-G(\tau,\tau) = [1 - B(\tau,0)B(\beta,\tau)]^{-1}.
+G(\tau,\tau) = [I - B(\tau,0)B(\beta,\tau)]^{-1}.
 $$
 
 ### Details on update of $U$, $D$, $V$
@@ -40,14 +42,56 @@ Then replace the SVD decompostion of $B(\beta-\Delta \tau,0 )$ by that of $B(\be
 
 For both backward sweep and forward sweep, we just need to do the replacement along the direction defined above.
 
+## Measurement
+Total number of electrons to determine the doping of electron.
+$$
+\hat{N} = \sum_i c_i^\dagger c_i. 
+$$
+
+It is equal to $\text{Tr}(G(\tau,\tau))$
+
+Sign of Monte Carlo weight 
+$$
+sign[\det[I-B(\beta,0)]] 
+$$
+
+In pratical, we collect quantity
+
+$$
+sign[\det[G(\beta,\beta)^{-1}]] = sign[\det[G(\beta,\beta)]] \\ = sign[\det[G(0,0)]]
+$$
 ## Other Mathematical formula
 ### Propagator
+$$
+B_{\phi}(\tau,\tau-d\tau) = e^{-d\tau T} e^{V(\phi(\tau))}
+$$
 
 ### Deviation of $\exp(-V(\phi))$, $\Delta$
+Only flip one site each time
+$$
+\Delta(\tau)_{ij} = \delta_{i,n}\delta_{j,n} \Delta(\tau)_{nn}
+$$
+Furthermore, we have
+$$
+\Delta(\tau)_{ii} = e^{-\alpha\sigma (\phi(i)' - \phi(i)) } - 1  \\
+=  e^{2\alpha\sigma \phi(i) } - 1 
+$$
+with $\phi(i)' = -\phi(i)$
 
 ### Acceptance ratio
-
+$$
+R = \det[I + \Delta(i,\tau) (I - G(\tau,\tau))] \\
+ = 1+ \Delta(\tau)_{ii}(1 - G(\tau,\tau)_{ii})
+$$
 ### Green function update
+$$
+G_{jk} \rightarrow G_{jk} - \frac{1}{R} G_{ji} \Delta(\tau)_{ii} (I - G)_{ik}
+$$
 
 ## Reference
+
+Chapter 7 in [Quantum Monte Carlo Methods](https://doi.org/10.1017/CBO9780511902581)
+
+[A brief introduction of DQMC study in itinerant quantum critical point](http://ziyangmeng.iphy.ac.cn/files/teaching/RECS201809.pdf)
+
 
