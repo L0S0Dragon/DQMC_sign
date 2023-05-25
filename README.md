@@ -85,7 +85,9 @@ $$R = \det[I + \Delta(i,\tau) (I - G(\tau,\tau))] \\
  = 1+ \Delta(\tau)_{ii}(1 - G(\tau,\tau)_{ii})$$
 
 ### Green function update
-$$G_{jk} \rightarrow G_{jk} - \frac{1}{R} G_{ji} \Delta(\tau)_{ii} (I - G)_{ik}$$
+$$
+G_{jk} \rightarrow G_{jk} - \frac{1}{R} G_{ji} \Delta(\tau)_{ii} (I - G)_{ik}
+$$
 
 ## Reference
 
