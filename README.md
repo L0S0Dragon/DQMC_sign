@@ -80,8 +80,8 @@ $$\Delta(\tau)_{ij} = \delta_{i,n}\delta_{j,n} \Delta(\tau)_{nn}$$
 Furthermore, we have
 
 $$
-\Delta(\tau)_{ii} = e^{-\alpha\sigma (\phi(i)' - \phi(i)) } - 1  \\
-=  e^{2\alpha\sigma \phi(i) } - 1
+\Delta(\tau)_{ii} = e^{\alpha\sigma (\phi(i)' - \phi(i)) } - 1  \\
+=  e^{-2\alpha\sigma \phi(i) } - 1
 $$
 
 with $\phi(i)' = -\phi(i)$
