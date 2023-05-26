@@ -48,7 +48,13 @@ $$
 \hat{N} = \sum_i c_i^\dagger c_i.
 $$
 
-It is equal to $\text{Tr}(G(\tau,\tau))$
+It is equal to average of $\text{Tr}(G(\tau,\tau))$
+
+If we sample the distribution $|P_{\phi}|$ instead of $P_{\phi}$, the measurement of an operator should be modified as 
+
+$$
+\langle \hat{O} \rangle = \frac{\langle O_{\phi} \times sign[P_{\phi}] \rangle_{\phi} }{ \langle sign[P_{\phi}] \rangle_{\phi}}.
+$$
 
 Sign of Monte Carlo weight 
 $$
