@@ -35,7 +35,7 @@ def run(N, Ntau, dtau, Nstable, U, t, mu, Nwarm, Nsweep):
 
     # Sweep
     print("Start sweep")
-    for i in tqdm(range(Nwarm), desc="Warming up"):
+    for i in tqdm(range(Nsweep), desc="Sweep"):
         GFup, GFdn, Uup, Dup, Vup, Udn, Ddn, Vdn, phi = Sweep_backward(GFup,GFdn,Uup,Dup,Vup,Udn,Ddn,Vdn,phi,ExpT,Vdiag,Nstable,alpha)
         
         # Measurement 
