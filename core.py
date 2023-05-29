@@ -1,7 +1,12 @@
 import numpy as np
 import numpy.linalg as LA
-import scipy.linalg as sla
 from pythtb import tb_model
+import sys
+# Check if we are in Jupyter
+if 'ipykernel' in sys.modules:
+    from tqdm.notebook import tqdm
+else:
+    from tqdm import tqdm
 
 def Tmatrix(t,mu, Nx, Ny):
 
@@ -96,7 +101,8 @@ def Sweep_forward(GFup,GFdn,Uup,Dup,Vup,Udn,Ddn,Vdn,phi,ExpT,Vdiag,Nstable,alpha
             # compare with advanced one to get the accumulated error
             GFup_error = np.max(np.abs(GFup_recomputed - GFup))
             GFdn_error = np.max(np.abs(GFdn_recomputed - GFdn))
-            print("Devitation between GF by propagating and by recomputed: ", (GFup_error + GFdn_error)/2)
+            #print("Devitation between GF by propagating and by recomputed: ", (GFup_error + GFdn_error)/2, flush = True)
+            tqdm.write(f"Devitation between GF by propagating and by recomputed: {(GFup_error + GFdn_error)/2}")
             GFup = GFup_recomputed
             GFdn = GFdn_recomputed
 
@@ -135,7 +141,8 @@ def Sweep_backward(GFup,GFdn,Uup,Dup,Vup,Udn,Ddn,Vdn,phi,ExpT,Vdiag,Nstable,alph
             # compare with advanced one to get the accumulated error
             GFup_error = np.max(np.abs(GFup_recomputed - GFup))
             GFdn_error = np.max(np.abs(GFdn_recomputed - GFdn))
-            print("Devitation between GF by propagating and by recomputed: ", (GFup_error + GFdn_error)/2)
+            # print("Devitation between GF by propagating and by recomputed: ", (GFup_error + GFdn_error)/2, flush = True)
+            tqdm.write(f"Devitation between GF by propagating and by recomputed: {(GFup_error + GFdn_error)/2}")
             GFup = GFup_recomputed
             GFdn = GFdn_recomputed
         
