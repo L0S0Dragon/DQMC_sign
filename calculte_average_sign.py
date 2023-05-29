@@ -11,8 +11,8 @@ N = 4
 dtau = 0.1
 Nstable = 10
 t = -1.0
-Nwarm = 10
-Nsweep = 20
+Nwarm = 500
+Nsweep = 20000
 
 chemical_potential = np.linspace(-2,0,10)
 imaginary_time_slice = np.linspace(20,50,5,dtype = int)
