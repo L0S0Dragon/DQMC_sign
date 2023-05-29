@@ -80,24 +80,31 @@ def Update_HS(GFup, GFdn, phi, alpha):
     return GFup, GFdn, phi
 
 
-def Sweep_backward(GFup,GFdn,Uup,Dup,Vup,Udn,Ddn,Vdn,phi,ExpT,Vdiag,Nstable,alpha):
+def Sweep_forward(GFup,GFdn,Uup,Dup,Vup,Udn,Ddn,Vdn,phi,ExpT,Vdiag,Nstable,alpha):
     # Input GFup, GFdn should be G(0,0) = G(\beta,\beta)
     # The first member of U, D, V should be the result of I = B(0,0) or B(\beta, \beta)
+
+    # reverse the order of U, D, V, and shift B(0,0) to the first one, to make the sweep backward
+    
     Ntau = len(phi) 
-    ind_revered = np.roll(np.arange(Ntau+1)[::-1], shift=1)
-    for n in range(1,Ntau+1):
-        i = ind_revered[n]
-        i_1 = ind_revered[n-1]
-        if np.mod(n,Nstable) == 0:
+    for i in range(1,Ntau+1):
+        if np.mod(i,Nstable) == 0:
             # recompute equal time GF to avoid accumulation of numerical error
-            GFup_recomputed = GF(Vup[i_1],Dup[i_1],Uup[i_1],Uup[i],Dup[i],Vup[i])
-            GFdn_recomputed = GF(Vdn[i_1],Ddn[i_1],Udn[i_1],Udn[i],Ddn[i],Vdn[i])
+            GFup_recomputed = GF(Vup[i],Dup[i],Uup[i],Uup[i-1],Dup[i-1],Vup[i-1])
+            GFdn_recomputed = GF(Vdn[i],Ddn[i],Udn[i],Udn[i-1],Ddn[i-1],Vdn[i-1])
+
             # compare with advanced one to get the accumulated error
             GFup_error = np.max(np.abs(GFup_recomputed - GFup))
             GFdn_error = np.max(np.abs(GFdn_recomputed - GFdn))
             print("Devitation between GF by propagating and by recomputed: ", (GFup_error + GFdn_error)/2)
             GFup = GFup_recomputed
             GFdn = GFdn_recomputed
+
+        # Advance equal green function first note that phi has not been updated
+        Bup = ExpM(phi[i-1], ExpT,  Vdiag)
+        Bdn = ExpM(phi[i-1], ExpT, -Vdiag)
+        GFup = Bup.dot(GFup).dot(LA.inv(Bup))
+        GFdn = Bdn.dot(GFdn).dot(LA.inv(Bdn))
         
         # Update H-S field and Green function
         GFup, GFdn, phi[i-1] = Update_HS(GFup, GFdn, phi[i-1], alpha)
@@ -106,13 +113,9 @@ def Sweep_backward(GFup,GFdn,Uup,Dup,Vup,Udn,Ddn,Vdn,phi,ExpT,Vdiag,Nstable,alph
         Bup = ExpM(phi[i-1], ExpT,  Vdiag)
         Bdn = ExpM(phi[i-1], ExpT, -Vdiag)
 
-        # Advance equal time GF using new H-S field
-        GFup = LA.inv(Bup).dot(GFup).dot(Bup)
-        GFdn = LA.inv(Bdn).dot(GFdn).dot(Bdn)
-
         # Repalce SVD decomposition of B matrix
-        Uup[i], Dup[i], Vup[i] = SVD_stablizer_back(Bup, Uup[i_1], Dup[i_1], Vup[i_1])
-        Udn[i], Ddn[i], Vdn[i] = SVD_stablizer_back(Bdn, Udn[i_1], Ddn[i_1], Vdn[i_1])
+        Uup[i], Dup[i], Vup[i] = SVD_stablizer_forward(Bup, Uup[i-1], Dup[i-1], Vup[i-1])
+        Udn[i], Ddn[i], Vdn[i] = SVD_stablizer_forward(Bdn, Udn[i-1], Ddn[i-1], Vdn[i-1])
 
     return GFup, GFdn, Uup, Dup, Vup, Udn, Ddn, Vdn, phi
 
