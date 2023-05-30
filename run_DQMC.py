@@ -46,6 +46,6 @@ def run(N, Ntau, dtau, Nstable, U, t, mu, Nwarm, Nsweep):
         
         # Measurement 
         sign[i*2 + 1] = np.sign(LA.det(GFup) * LA.det(GFdn))
-        Number[i*2 + 1] = np.diag(GFup).sum() + np.diag(GFdn).sum()
+        Number[i*2 + 1] = 2*L - np.diag(GFup).sum() + np.diag(GFdn).sum()
 
     return sign, Number
