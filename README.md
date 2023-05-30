@@ -48,7 +48,7 @@ $$
 \hat{N} = \sum_i c_i^\dagger c_i.
 $$
 
-It is equal to average of $\text{Tr}(G(\tau,\tau))$
+It is equal to average of $ N - \text{Tr}(G(\tau,\tau))$, where $N$ is the largest electron number.
 
 If we sample the distribution $|P_{\phi}|$ instead of $P_{\phi}$, the measurement of an operator should be modified as 
 
@@ -70,6 +70,12 @@ $$
 ### Propagator
 $$
 B_{\phi}(\tau,\tau-d\tau) = e^{-d\tau T} e^{V(\phi(\tau))}
+$$
+
+### Green function
+
+$$
+G(\tau,\tau)_{i,j} = \langle c(\tau)_i c(\tau)^\dagger_j \rangle
 $$
 
 ### Deviation of $\exp(-V(\phi))$, $\Delta$
@@ -94,6 +100,8 @@ $$R = \det[I + \Delta(i,\tau) (I - G(\tau,\tau))] \\
 $$
 G_{jk} \rightarrow G_{jk} - \frac{1}{R} G_{ji} \Delta(\tau)_{ii} (I - G)_{ik}
 $$
+
+> For spin up or spin down $R$ should be $R^{\sigma}$
 
 ## Compute Green function by SVD
 $$
